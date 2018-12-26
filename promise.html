@@ -44,20 +44,16 @@
             function resolveFuncWrap() {
             var result = resolveFunc(self.value);
             if (result && typeof result.then === 'function') {
-                //如果result是MyPromise对象，则通过then将resolve_next和reject_next传给它
                 result.then(resolve_next, reject_next);
             } else {
-                //如果result是其他对象，则作为参数传给resolve_next
                 resolve_next(result);
             }
             }
             function rejectFuncWrap() {
             var result = rejectFunc(self.value);
             if (result && typeof result.then === 'function') {
-                //如果result是MyPromise对象，则通过then将resolve_next和reject_next传给它
                 result.then(resolve_next, reject_next);
             } else {
-                //如果result是其他对象，则作为参数传给resolve_next
                 resolve_next(result);
             }
             }

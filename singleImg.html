@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        padding:0;
+        margin:0;
+        list-style: none;
+    }
+
+    img{
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+    <script>
+        const src = ["http://img3.duitang.com/uploads/item/201412/29/20141229222237_vhSmZ.jpeg","http://life.southmoney.com/tuwen/UploadFiles_6871/201808/20180808151217543.jpg","http://img5.duitang.com/uploads/item/201408/21/20140821152617_VZvmZ.gif","http://img18.3lian.com/d/file/201710/26/312a7210c058219c6c003159a25dd7e0.png","http://img.qqleju.com/uploads/allimg/150330/30-022118_416.jpg","http://a3.topitme.com/0/2b/ac/11282425440c6ac2b0l.jpg","http://a2.att.hudong.com/22/04/01300536886921136691044308918.jpg","http://a.hiphotos.baidu.com/zhidao/pic/item/908fa0ec08fa513d369678773d6d55fbb2fbd95e.jpg","http://a2.att.hudong.com/62/65/16200000194759131605657475067.jpg","http://c.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=29155eccb2119313c716f7b4500820e1/b999a9014c086e0667c3af4502087bf40ad1cb51.jpg","http://www.17qq.com/img_qqtouxiang/82324369.jpeg"]
+
+        function preLoading(src){
+            let arr = [];
+            src.forEach(url=>{
+                let arrList = loadingImg(url)
+                .then(img =>{
+                    document.body.append(img)
+                }).catch(err=>{
+                    console.log('err')
+                })
+            })
+
+            Promise.race(arr).then((res)=>{
+                console.log(res)
+            })
+        }
+
+        function loadingImg(url){
+            return new Promise((resolve,reject)=>{
+                let img = new Image();
+                img.onload = ()=> resolve(img)
+                img.onerror = reject;
+                img.src = url;
+            })
+        }
+
+        preLoading(src)
+    </script>
+</body>
+</html>
