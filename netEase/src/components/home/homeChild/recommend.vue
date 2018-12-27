@@ -1,15 +1,16 @@
 <template>
-    <div>
+    <div class="recommendWrap">
         <Swiper :swiperList="swiperList"></Swiper>
         <RecomBox></RecomBox>
         <div class="recommend_sing">推荐歌单<span class="iconfont xiangyou icon-angle-right"></span></div>
+        <RecomList :singList="singList"></RecomList>
     </div>
 </template>
 <script>
-import Swiper from "../homeComp/swiper";
 import axios from "axios";
-
 import RecomBox from "../homeComp/recomBox";
+import Swiper from "../homeComp/swiper";
+import RecomList from "../homeComp/recomList";
 
 export default {
     name:"recommend",
@@ -37,7 +38,8 @@ export default {
     },
     components:{
         Swiper,
-        RecomBox
+        RecomBox,
+        RecomList
     },
     mounted() {
         axios.get('/api/recommendSing').then(res=>{
@@ -48,6 +50,13 @@ export default {
 }
 </script>
 <style>
+.recommendWrap{
+    padding-bottom: 60px;
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+}    
+
 .recommend_sing{
     width: 100%;
     height:36px;
@@ -57,5 +66,34 @@ export default {
 .xiangyou{
     color: #999;
     padding-left: 4px;
+}
+
+.singlist{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.singlist>dl{
+    width: 32%;
+    padding-bottom: 10px;
+}
+
+.singlist>dl>dt>img{
+    width: 100%;
+    height: 80%;
+}
+
+.singlist>dl>dd{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 12px;
+    color: #333;
+    padding: 0 6px;
+    box-sizing: border-box;
 }
 </style>

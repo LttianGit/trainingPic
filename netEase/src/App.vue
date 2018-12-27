@@ -66,11 +66,12 @@ export default {
   }
 
   .app_Bottom{
+    padding-top: 10px;
     width: 100%;
-    height: 50px;
+    height: 60x;
     display: flex;
     justify-content: space-around;
-    background:rgba(255,255,255.2);
+    background:rgba(255,255,255,.9);
     position: fixed;
     left:0;
     bottom: 0;
