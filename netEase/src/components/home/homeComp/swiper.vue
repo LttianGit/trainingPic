@@ -4,7 +4,7 @@
             
         </div>
         <div class="swiper_List">
-            <div class="swiper-container">
+            <div class="swiper-container swiperOne">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="val in swiperList">
                         <img :src="val.name" alt="">
@@ -22,7 +22,7 @@ export default {
     name:"accout",
     props:["swiperList"],
     mounted(){
-        var mySwiper = new Swiper('.swiper-container', {
+        var mySwiper = new Swiper('.swiperOne', {
             autoplay:true,
             loop:true
         })

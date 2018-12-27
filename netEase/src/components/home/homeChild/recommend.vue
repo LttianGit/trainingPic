@@ -4,6 +4,7 @@
         <RecomBox></RecomBox>
         <div class="recommend_sing">推荐歌单<span class="iconfont xiangyou icon-angle-right"></span></div>
         <RecomList :singList="singList"></RecomList>
+        <SwiperTwo></SwiperTwo>
     </div>
 </template>
 <script>
@@ -11,6 +12,7 @@ import axios from "axios";
 import RecomBox from "../homeComp/recomBox";
 import Swiper from "../homeComp/swiper";
 import RecomList from "../homeComp/recomList";
+import SwiperTwo from "../homeComp/swiperTwo";
 
 export default {
     name:"recommend",
@@ -39,7 +41,8 @@ export default {
     components:{
         Swiper,
         RecomBox,
-        RecomList
+        RecomList,
+        SwiperTwo
     },
     mounted() {
         axios.get('/api/recommendSing').then(res=>{
