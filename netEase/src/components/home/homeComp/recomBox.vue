@@ -1,12 +1,14 @@
 <template>
     <div class="recomBoxWrap">
         <dl v-for="val in conList">
-            <dt>
-                <img :src="val.url" alt="">
-            </dt>
-            <dd>
-                {{val.name}}
-            </dd>
+            <router-link :to="val.pathto">
+                <dt>
+                    <img :src="val.url" alt="">
+                </dt>
+                <dd>
+                    {{val.name}}
+                </dd>
+            </router-link>
         </dl>
     </div>
 </template>
@@ -17,16 +19,20 @@ export default {
         return{
             conList:[{
                 url:"../../../../static/images/dl1_03.jpg",
-                name:"私人FM"
+                name:"私人FM",
+                pathto:"/person"
             },{
                 url:"../../../../static/images/dl2_03.jpg",
-                name:"每日推荐"
+                name:"每日推荐",
+                pathto:"/today"
             },{
                 url:"../../../../static/images/dl3_03.jpg",
-                name:"歌单"
+                name:"歌单",
+                pathto:"/singerlist"
             },{
                 url:"../../../../static/images/dl4_03.jpg",
-                name:"排行榜"
+                name:"排行榜",
+                pathto:"/rank"
             }]
         }
     }
@@ -47,12 +53,17 @@ export default {
     box-sizing: border-box;
 }
 
-.recomBoxWrap>dl>dt>img{
+.recomBoxWrap>dl>a{
+    text-decoration: none;
+    color: #333;
+}
+
+.recomBoxWrap>dl>a>dt>img{
     width: 44px;
     height: 44px;
 }
 
-.recomBoxWrap>dl>dd{
+.recomBoxWrap>dl>a>dd{
     font-size: 12px;
     color: #333;
     height: 22px;

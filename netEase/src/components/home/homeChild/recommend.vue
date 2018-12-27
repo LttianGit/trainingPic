@@ -44,7 +44,6 @@ export default {
     mounted() {
         axios.get('/api/recommendSing').then(res=>{
             this.singList = res.data.data;
-            console.log(this.singList)
         })   
     }
 }

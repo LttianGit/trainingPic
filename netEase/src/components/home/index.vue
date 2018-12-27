@@ -19,10 +19,10 @@ export default {
         return{
             titleTab:[{
                 name:"个性推荐",
-                url:"/home/recommend"
+                url:"/mainpage/home/recommend"
             },{
                 name:"主播电台",
-                url:"/home/anchor"
+                url:"/mainpage/home/anchor"
             }],
             ind:0
         }

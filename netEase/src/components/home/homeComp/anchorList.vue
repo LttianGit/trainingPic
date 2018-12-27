@@ -21,6 +21,7 @@ export default {
 <style>
 .anchorList{
     width: 100%;
+    padding-bottom: 60px;
 }
 
 .anchorList>dl{
@@ -32,8 +33,8 @@ export default {
 }
 
 .anchorList>dl>dt{
-    width: 30%;
-    height: 80%;
+    width: 26%;
+    height: 76%;
 }
 
 .anchorImg{

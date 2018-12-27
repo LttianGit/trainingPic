@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="loginLogo">
-      <img src="../../../static/images/1_02.jpg" alt="">
+      <img class="loginimg" src="../../../static/images/1_02.jpg" alt="">
     </div>
     <div class="btnBox">
       <button class="btn" @click="iphoneLogin">手机号登录</button>
@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import Bottom from "@/components/login/bottom";
 
 export default {
@@ -50,8 +50,8 @@ export default {
   width: 100%;
 }
 
-.loginLogo>img{
-  width: 100%;
+.loginimg{
+  width: 100%!important;
 }
 
 .btnBox{

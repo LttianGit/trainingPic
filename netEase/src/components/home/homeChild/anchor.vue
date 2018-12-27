@@ -4,6 +4,7 @@
         <AnchorBox></AnchorBox>
         <CheckTody></CheckTody>
         <AnchorList :singList="singList"></AnchorList>
+
     </div>
 </template>
 <script>
@@ -38,12 +39,11 @@ export default {
     mounted() {
         axios.get('/api/recommendSing').then(res=>{
             this.singList = res.data.data;
-            console.log(this.singList)
         })   
     }
 }
 </script>
-<style>
+<style scoped>
 .anchorWrap{
     width: 100%;
     flex: 1;

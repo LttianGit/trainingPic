@@ -1,10 +1,19 @@
 <template>
     <div class="header">
-       <span><i class="iconfont icon-xiayiqu1"></i></span>
+       <span @click="jump"><i class="iconfont icon-xiayiqu1"></i></span>
        <input type="text" placeholder="猜你喜欢 浮生">
        <span><i class="iconfont icon-zanting3"></i></span>
     </div>
 </template>
+<script>
+export default {
+    methods:{
+        jump(){
+            this.$router.push('/login')
+        }
+    }
+}
+</script>
 <style scoped>
     .header{
         width: 100%;

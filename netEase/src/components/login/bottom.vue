@@ -36,7 +36,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 .bottom{
   width: 100%;
   padding-top: 84px;
