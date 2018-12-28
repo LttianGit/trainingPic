@@ -45,7 +45,7 @@ export default {
 .swiper_List{
     width: 90%;
     position: absolute;
-    left:10px;
+    left:20px;
     top:0;
     border-radius: 10px;
     overflow: hidden;
@@ -53,6 +53,5 @@ export default {
 
 .swiper-slide>img{
     width: 100%;
-    height: 150px;
 }
 </style>

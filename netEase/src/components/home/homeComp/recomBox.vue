@@ -41,7 +41,7 @@ export default {
 <style>
 .recomBoxWrap{
     width: 100%;
-    margin-top: 14%;
+    margin-top: 12%;
     display: flex;
     justify-content: space-around;
 }

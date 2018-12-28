@@ -1,8 +1,10 @@
 <template>
-    <div class="swiperTwo">
-        <swiper :options="swiperOption">
-            <swiper-slide v-for="(item, index) in slides" :key="index"><img :src="item"></swiper-slide>
-        </swiper>
+    <div class="asideSwiper">
+        <div class="swiperTwo">
+            <swiper :options="swiperOption">
+                <swiper-slide v-for="(item, index) in slides" :key="index"><img :src="item"></swiper-slide>
+            </swiper>
+        </div>
     </div>
 </template>
 <script>
@@ -74,6 +76,13 @@ export default{
 </script>
 <style>
     @import url('../../../assets/index');
+
+    .asideSwiper{
+        width: 100%;
+        height: 200px;
+        background: #33383b;
+        padding-top: 30px;
+    }
 </style>
 
 

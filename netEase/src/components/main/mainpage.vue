@@ -61,6 +61,7 @@
       position: fixed;
       left:0;
       bottom: 0;
+      z-index: 1234;
     }
   
     .app_Bottom>dl{

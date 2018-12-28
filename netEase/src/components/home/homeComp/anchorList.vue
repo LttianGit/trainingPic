@@ -21,7 +21,6 @@ export default {
 <style>
 .anchorList{
     width: 100%;
-    padding-bottom: 60px;
 }
 
 .anchorList>dl{

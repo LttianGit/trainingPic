@@ -4,7 +4,7 @@
         <AnchorBox></AnchorBox>
         <CheckTody></CheckTody>
         <AnchorList :singList="singList"></AnchorList>
-
+        <AnchorShop></AnchorShop>
     </div>
 </template>
 <script>
@@ -13,6 +13,7 @@ import Swiper from "../homeComp/swiper";
 import CheckTody from "../homeComp/anchorcheck";
 import AnchorBox from "../homeComp/anchorBox";
 import AnchorList from "../homeComp/anchorList";
+import AnchorShop from "../homeComp/anchorshop";
 
 export default {
     name:"anchor",
@@ -34,7 +35,8 @@ export default {
         Swiper,
         AnchorBox,
         CheckTody,
-        AnchorList
+        AnchorList,
+        AnchorShop
     },
     mounted() {
         axios.get('/api/recommendSing').then(res=>{
@@ -48,5 +50,6 @@ export default {
     width: 100%;
     flex: 1;
     overflow: auto;
+    padding-bottom: 60px;
 }
 </style>
