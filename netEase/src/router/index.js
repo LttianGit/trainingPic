@@ -13,7 +13,11 @@ import Today from "@/components/home/homeChild/recompage/today"
 
 import Movie from "@/components/movie"
 import Mine from "@/components/mine"
+
 import Friends from "@/components/friends"
+import Frienddynamic from "@/components/friends/friendChild/dynamic"
+import Friendnear from "@/components/friends/friendChild/near"
+
 import Account from "@/components/account"
 
 import Login from '@/components/login/login'
@@ -34,7 +38,7 @@ export default new Router({
       path: '/mainpage/home',
       name: 'home',
       component: Home,
-          children:[{
+      children:[{
             path:'/mainpage/home',
             redirect:"/mainpage/home/recommend"
           },{
@@ -55,7 +59,17 @@ export default new Router({
       },{
         path: '/mainpage/friends',
         name: 'friends',
-        component: Friends
+        component: Friends,
+        children:[{
+            path:'/mainpage/friends',
+            redirect:"/mainpage/friends/dynamic"
+          },{
+            path:'/mainpage/friends/dynamic',
+            component:Frienddynamic
+          },{
+            path:'/mainpage/friends/near',
+            component:Friendnear
+        }]
       },{
         path: '/mainpage/account',
         name: 'account',
