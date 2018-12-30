@@ -48,6 +48,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         const data = require('../src/mock/recommendSing.json');
         res.json({code:0,data:data})
       })
+      app.get('/api/dynamic',(req,res)=>{
+        const data = require('../src/mock/dynamic.json');
+        res.json({code:0,data:data})
+      })
     }
   },
   plugins: [
