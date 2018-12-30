@@ -1,6 +1,6 @@
 <template>
     <div>
-        this is accout page.
+       
     </div>
 </template>
 <script>
