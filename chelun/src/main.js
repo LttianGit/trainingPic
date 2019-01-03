@@ -7,6 +7,10 @@ import router from "./router/index"
 Vue.use(Mint);
 import store from './store/index'
 
+//引入vant
+import { Popup,Picker} from 'vant';
+Vue.use(Popup);
+Vue.use(Picker);
 
 new Vue({
   el: '#app',
