@@ -8,11 +8,11 @@
                 </li>
                 <li>
                     <span class="span1">当前驾照签发城市<i class="help"  @click="helpMock(1)">?</i></span>
-                    <span class="span2" @click="chooseLssue">{{cityForm.choose}}</span>
+                    <span class="span2" @click="chooseLssue"><span v-if="city.length">{{city.join(' ')}}</span><span v-else>请选择签发城市</span></span>
                 </li>
                 <li>
                     <span class="span1">可补换的签发城市<i class="help" @click="helpMock(2)">?</i></span>
-                    <span class="span2">请选择补换地</span>
+                    <span class="span2" @click="costclick">请选择补换地</span>
                 </li>
                 <li>
                     <span class="span1">服务费</span>
@@ -26,9 +26,9 @@
                 </van-popup>
             </section>
             <section>
-                <van-popup v-model="lssueShow" position="bottom" overlay>
-                    <van-picker :columns="cityArr" show-toolbar title="选择签发地"  @cancel="lssuwShowonCancel"
-                    @confirm="lssuwShowonConfirm"/>
+                <van-popup v-model="lssueShow" position="bottom">
+                    <van-picker :columns="cityColumns" show-toolbar title="选择签发地"  @cancel="lssuwShowonCancel"
+                    @confirm="lssuwShowonConfirm" @change="cityChange" ref="cityPicker" />
                 </van-popup>
             </section>
             <HelpMock :flag="flag" :num="num" v-on:colseFlag="colseFlag"></HelpMock>
@@ -36,8 +36,9 @@
     </div>
 </template>
 <script>
-import axios from "axios"
 import HelpMock from "./helpMock"
+import {mapState,mapMutations,mapActions} from "vuex"
+import {cityList,costList} from "../api/index"
 
 export default {
     name:'',
@@ -52,20 +53,42 @@ export default {
             flag:false,
             num:1,
             lssueShow:false,
-            cityList:[],
-            cityArr:[],
+            costShow:false,
+            cityColumns:[],
+            costList:[],
             cityForm:{
                 choose:"请选择签发地"
             }
         }
     },
+    created(){
+        this.getCityList().then(res=>{
+            this.cityColumns = [
+                {
+                    values:this.cityList.map(item=>item.name)
+                },{
+                    values:this.cityList[0].list.map(item=>item.name)
+                }
+            ]
+        })
+    },
     components:{
         HelpMock
     },
-    created() {
-        this.$emit('sendPrice',this.price)
+    computed: {
+        ...mapState({
+            cityList:state=>state.cityPicker.cityList,
+            city:state=>state.cityPicker.city
+        })
     },
     methods: {
+        ...mapActions({
+            getCityList:"cityPicker/getCityList",
+            getCostList:"cityPicker/getCostList"
+        }),
+        ...mapMutations({
+            updataState:"cityPicker/updataState"
+        }),
         changeDirve(){
             this.show = !this.show
         },
@@ -85,38 +108,37 @@ export default {
         },
         chooseLssue(){
             this.lssueShow = !this.lssueShow
-            axios.get('/api/ExchangeJiaZhao/cityList').then(res=>{
-                this.cityList = res.data.data;
-                this.cityList.map(val=>{
-                    this.cityArr.push(val.name)
-                })
-            })
         },
         lssuwShowonCancel(){
             this.lssueShow = !this.lssueShow
         },
         lssuwShowonConfirm(value){
-            this.cityForm.choose = value
+            this.updataState({city:value})
             this.lssuwShowonCancel()
+        },
+        cityChange(picker,values){
+            let index = this.cityList.findIndex(item=>item.name==values[0]);
+            // this.cityColumns[1] = {
+            //     values:this.cityList[index].list.map(item=>item.name)
+            // }
+            this.$refs.cityPicker.setColumnValues(1,this.cityList[index].list.map(item=>item.name))
+            console.log(picker,values)
+        },
+        costclick(){
+            if(!this.city.length){
+                alert('请选择签发城市')
+            }else{
+                this.getCostList()
+                this.lssueShow = !this.lssueShow
+            }
         }
     },
     mounted() {
-        // .then(this.handleResponse)
-        // .then(data => console.log(data))
-        // .then(error => console.log(error))
-
-        // function handleResponse (response) {
-        //     let contentType = response.headers.get('content-type')
-        //     if (contentType.includes('application/json')) {
-        //         return handleJSONResponse(response)
-        //     } else if (contentType.includes('text/html')) {
-        //         return handleTextResponse(response)
-        //     } else {
-        //         // Other response types as necessary. I haven't found a need for them yet though.
-        //         throw new Error(`Sorry, content-type ${contentType} not supported`)
-        //     }
-        // }
-    },
+        this.getCityList()
+        cityList().then(res=>{
+            console.log(res)
+        })
+    }
 }
 </script>
 <style>

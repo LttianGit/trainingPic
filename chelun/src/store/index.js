@@ -4,10 +4,12 @@ import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex);
 import upload from './modules/upload';
+import cityPicker from './modules/cityPicker';
 
 export default new Vuex.Store({
     modules: {
-        upload
+        upload,
+        cityPicker
     },
     plugins: [createLogger()]
 })
