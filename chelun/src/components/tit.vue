@@ -2,17 +2,14 @@
     <div class="tit">
         <div class="top1">
             <ul>
-                <li>
-                    <span class="span1">服务类型</span>
-                    <span @click="changeDirve">{{form.type}}<b style="color:#888;padding-left:10px;">&gt;</b></span>
-                </li>
+                <LiVue></LiVue>
                 <li>
                     <span class="span1">当前驾照签发城市<i class="help"  @click="helpMock(1)">?</i></span>
                     <span class="span2" @click="chooseLssue"><span v-if="city.length">{{city.join(' ')}}</span><span v-else>请选择签发城市</span></span>
                 </li>
                 <li>
                     <span class="span1">可补换的签发城市<i class="help" @click="helpMock(2)">?</i></span>
-                    <span class="span2" @click="costclick">请选择补换地</span>
+                    <span class="span2" @click="costclick"><span v-if="cost.length">{{cost.join(' ')}}</span><span v-else>请选择补换地</span></span>
                 </li>
                 <li>
                     <span class="span1">服务费</span>
@@ -20,15 +17,15 @@
                 </li>
             </ul>
             <section>
-                <van-popup v-model="show" overlay>
-                    <van-picker :columns="serviceType" show-toolbar title="服务类型"  @cancel="onCancel"
-                    @confirm="onConfirm"/>
-                </van-popup>
-            </section>
-            <section>
                 <van-popup v-model="lssueShow" position="bottom">
                     <van-picker :columns="cityColumns" show-toolbar title="选择签发地"  @cancel="lssuwShowonCancel"
                     @confirm="lssuwShowonConfirm" @change="cityChange" ref="cityPicker" />
+                </van-popup>
+            </section>
+            <section>
+                <van-popup v-model="costShow" position="bottom">
+                    <van-picker :columns="costColumns" show-toolbar title="选择补发地"  @cancel="costShowCancel"
+                    @confirm="costShowConfirm" @change="costChange" ref="costPicker" />
                 </van-popup>
             </section>
             <HelpMock :flag="flag" :num="num" v-on:colseFlag="colseFlag"></HelpMock>
@@ -39,23 +36,19 @@
 import HelpMock from "./helpMock"
 import {mapState,mapMutations,mapActions} from "vuex"
 import {cityList,costList} from "../api/index"
+import LiVue from "./liVue"
 
 export default {
     name:'',
     data(){
         return{
             price:399,
-            show:false,
-            serviceType:["换驾照","补驾照"],
-            form:{
-                type:'换驾照'
-            },
             flag:false,
             num:1,
             lssueShow:false,
             costShow:false,
             cityColumns:[],
-            costList:[],
+            costColumns:[],
             cityForm:{
                 choose:"请选择签发地"
             }
@@ -71,14 +64,18 @@ export default {
                 }
             ]
         })
+        
     },
     components:{
-        HelpMock
+        HelpMock,
+        LiVue
     },
     computed: {
         ...mapState({
             cityList:state=>state.cityPicker.cityList,
-            city:state=>state.cityPicker.city
+            costList:state=>state.cityPicker.costList,
+            city:state=>state.cityPicker.city,
+            cost:state=>state.cityPicker.cost
         })
     },
     methods: {
@@ -89,16 +86,6 @@ export default {
         ...mapMutations({
             updataState:"cityPicker/updataState"
         }),
-        changeDirve(){
-            this.show = !this.show
-        },
-        onCancel(){
-            this.show = !this.show
-        },
-        onConfirm(value){
-            this.form.type = value
-            this.onCancel()
-        },
         helpMock(num){
             this.num = num;
             this.flag = !this.flag
@@ -128,16 +115,39 @@ export default {
             if(!this.city.length){
                 alert('请选择签发城市')
             }else{
-                this.getCostList()
-                this.lssueShow = !this.lssueShow
+                this.getCostList().then(res=>{
+                    this.costColumns = [
+                        {
+                            values:this.costList.map(item=>item.name)
+                        },{
+                            values:this.costList[0].list.map(item=>item.name)
+                        }
+                    ]
+                })
+                this.costShow = !this.costShow
             }
-        }
+        },
+        costShowCancel(){
+            this.costShow = !this.costShow
+        },
+        costShowConfirm(value){
+            this.updataState({cost:value})
+            this.costShow = !this.costShow
+        },
+        costChange(picker,values){
+            let index = this.costList.findIndex(item=>item.name==values[0]);
+            // this.cityColumns[1] = {
+            //     values:this.cityList[index].list.map(item=>item.name)
+            // }
+            this.$refs.costPicker.setColumnValues(1,this.costList[index].list.map(item=>item.name))
+            console.log(picker,values)
+        },
     },
     mounted() {
         this.getCityList()
-        cityList().then(res=>{
-            console.log(res)
-        })
+        // cityList().then(res=>{
+        //     console.log(res)
+        // })
     }
 }
 </script>
