@@ -123,8 +123,10 @@ export default {
                             values:this.costList[0].list.map(item=>item.name)
                         }
                     ]
+                    this.price = this.costList[0].list.map(item=>item.cost)[0]
                 })
                 this.costShow = !this.costShow
+                console.log(this.$VueBus)
             }
         },
         costShowCancel(){
@@ -141,13 +143,7 @@ export default {
             // }
             this.$refs.costPicker.setColumnValues(1,this.costList[index].list.map(item=>item.name))
             console.log(picker,values)
-        },
-    },
-    mounted() {
-        this.getCityList()
-        // cityList().then(res=>{
-        //     console.log(res)
-        // })
+        }
     }
 }
 </script>

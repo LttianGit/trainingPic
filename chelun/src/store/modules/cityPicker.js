@@ -27,7 +27,7 @@ const actions = {
         let proIndex = state.cityList.findIndex(item=>item.name==state.city[0]),
             cityIndex = state.cityList[proIndex].list.findIndex(item=>item.name==state.city[1])
         let res = await costList(1,state.cityList[proIndex].id,state.cityList[proIndex].list[cityIndex].id)
-        console.log(res)
+        console.log(res.data)
         commit('updataState',{costList:res.data})
     }
 }

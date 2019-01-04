@@ -37,5 +37,5 @@ export let cityList = ()=>{
 }
 
 export let costList = (...params)=>{
-    return sendRequest(`/api/ExchangeJiaZhao/getCostList?order_type=${params[0]}&city_id=${params[2]}&province_id=${params[1]}`)
+    return sendRequest(`/api/ExchangeJiaZhao/getCostList?order_type=${params[0]}&province_id=${params[1]}&city_id=${params[2]}`)
 }
