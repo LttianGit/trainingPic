@@ -81,9 +81,11 @@ module.exports = {
     overlay: true,
     proxy:{
       '/api':{
-        target:"http://chezhu-test.eclicks.cn/",
+        target:"https://chezhu.eclicks.cn/",
+        //开辟跨域
         changeOrigin:true,
         pathRewrite:{
+          //把api设置为本地localhost
           '/api':'/'
         }
       }
