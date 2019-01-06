@@ -1,0 +1,33 @@
+@import "./common.css";
+@import "./_minix.scss";
+
+.content{
+    width: 100%;
+    .contentTitle{
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        ul{
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #eee;
+            box-sizing: border-box;
+            li{
+                width: 33.3%;
+                text-align: center;
+                font-size: 18px;
+                color: #888;
+                span{
+                    display: inline-block;
+                    padding: 0 20px;
+                }
+                .spanactive{
+                    color: #000;
+                    border-bottom: 2px solid turquoise;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+}

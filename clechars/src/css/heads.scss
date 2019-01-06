@@ -1,0 +1,73 @@
+@import "./common.css";
+@import "./_minix.scss";
+
+.header{
+    width: 100%;
+    height: 100px;
+    line-height: 110px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border:none;
+}
+
+.header>p{
+    width: 30%;
+}
+
+.header>p>img{
+    width: 50%;
+    vertical-align: middle;
+}
+
+.header>span{
+    color: #00f;
+}
+
+.header>span>i{
+    font-size: 300%;
+}
+
+.header>ul{
+    display: none;
+}
+
+@media only screen and (min-width: 1000px) { 
+  .header{
+    width: 100%;
+    height: 110px;
+    line-height: 110px;
+    background: #00f;
+    border-bottom: 1px solid #000;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .header>p{
+      width: 30%;
+      text-align: center;
+  }
+
+  .header>p>img{
+      width: 40%;
+      vertical-align: middle;
+  }
+
+  .header>ul{
+      flex: 1;
+      display: flex;
+  }
+
+  .header>ul>li{
+      width: 12%;
+      text-align: center;
+      font-size: 18px;
+  }
+
+  .active{
+      border-bottom: 2px solid skyblue;
+      padding-bottom: 8px;
+  }
+}
