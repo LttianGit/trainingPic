@@ -3,7 +3,7 @@ import App from './App.vue'
 import Mint from "mint-ui"
 import 'mint-ui/lib/style.css'
 import router from "./router/index"
-import VueBus from 'vue-bus';
+window.VueBus = new Vue()
 Vue.use(Mint);
 import store from './store/index'
 

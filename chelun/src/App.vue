@@ -1,11 +1,16 @@
 <template>
   <div class="appWrap">
-    <router-view></router-view>
+      <Top></Top>
+      <router-view></router-view>
   </div>
 </template>
 <script>
+import Top from './components/top';
 export default{
-  name:"wrap"
+  name:"wrap",
+  components:{
+    Top
+  }
 }
 </script>
 <style>

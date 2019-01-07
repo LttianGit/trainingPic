@@ -51,7 +51,8 @@ export default {
             costColumns:[],
             cityForm:{
                 choose:"请选择签发地"
-            }
+            },
+            con:''
         }
     },
     created(){
@@ -133,6 +134,7 @@ export default {
         },
         costShowConfirm(value){
             this.updataState({cost:value})
+            VueBus.$emit('passCon',value)
             this.costShow = !this.costShow
         },
         costChange(picker,values){

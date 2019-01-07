@@ -3,22 +3,41 @@
         <ul>
             <li>
                 <span class="span1">优惠</span>
-                <span class="span5">登录后查看就加考</span>
+                <span class="span5" @click="login">登录后查看就加考</span>
             </li>
         </ul>
         <div class="getToprice">
             <span class="span1">实付：<b>￥399</b></span>
-            <button>立即支付</button>
+            <button @click="click">立即支付</button>
         </div>
         <p><a href="#">常见问题?</a></p>
         <div class="anctor"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546407029449&di=b1912010b12f816e09babf41cab4d689&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01af1055e67c0c32f875a132af9f7c.jpg%402o.jpg" alt=""></div>
     </div>
 </template>
 <script>
+import {goPay,goLogin} from "../api/index.js";
+
 export default {
     name:'',
-    mounted() {
-       
+    data(){
+        return{
+            con:''
+        }
+    },
+    mounted(){
+        VueBus.$on('passCon',(res)=>{
+            this.con = res
+            console.log(this.con)
+        })
+    },
+    methods: {
+        click(){
+            goPay()
+            this.$router.push('/address')
+        },
+        login(){
+            goLogin()
+        }
     }
 }
 </script>

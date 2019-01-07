@@ -1,6 +1,5 @@
 <template>
     <div class="app">
-        <Top></Top>
         <img src="http://img1.imgtn.bdimg.com/it/u=1337324894,3343656945&fm=26&gp=0.jpg" alt="">
         <Nav></Nav>
         <Tit :sendPrice="sendPrice"></Tit>
@@ -10,7 +9,6 @@
 
 <script>
 // const JSBridge = require('./utils/JSBridge.js');
-import Top from '../components/top';
 import Nav from '../components/nav';
 import Tit from '../components/tit';
 import Bottom from '../components/bottom';
@@ -21,7 +19,6 @@ export default {
     return {}
     },
     components:{
-        Top,
         Nav,
         Tit,
         Bottom
