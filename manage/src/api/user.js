@@ -7,3 +7,11 @@ export function getUser(params){
         params
     })
 }
+
+export function updateUserInfo(data){
+    return request({
+        url:"/users/update",
+        method:"post",
+        data
+    })
+}
