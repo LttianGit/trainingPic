@@ -13,6 +13,8 @@ import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import userRouter from './modules/user'
 
+import organizeRouter from './modules/organize'
+
 /** note: Submenu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  **/
@@ -150,7 +152,7 @@ export const asyncRouterMap = [
       }
     ]
   },
-
+  organizeRouter,
   {
     path: '/icon',
     component: Layout,

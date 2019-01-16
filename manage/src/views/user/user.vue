@@ -153,7 +153,8 @@
         ...mapActions({
             getUserList:"list/getUserList",
             updateUserInfo:"list/updateUserInfo",
-            deleteUserInfo:"list/deleteUserInfo"
+            deleteUserInfo:"list/deleteUserInfo",
+            monifyUserInfo:"list/monifyUserInfo"
         }),
         handleEdit(index,row){
             this.type="edit"
@@ -178,25 +179,46 @@
           this.myRoles = [...new Set(this.myRoles)]
         },
         submit(){
-          this.$refs.form.validate(valid=>{
-            if(valid){
-              let {id,username,profile,email,phone} = this.currentUser;
-              this.updateUserInfo({id,username,profile,email,phone}).then(res=>{
-                this.$message({
-                  message:res,
-                  center:true,
-                  type:'success'
+          if(this.type=='edit'){
+              this.$refs.form.validate(valid=>{
+              if(valid){
+                let {id,username,profile,email,phone} = this.currentUser;
+                this.updateUserInfo({id,username,profile,email,phone}).then(res=>{
+                  this.$message({
+                    message:res,
+                    center:true,
+                    type:'success'
+                  })
+                  this.getUserList({page:this.current})
+                }).catch(err=>{
+                  this.$message({
+                    message:err,
+                    center:true,
+                    type:'error'
+                  })
                 })
-                this.getUserList({page:this.current})
-              }).catch(err=>{
-                this.$message({
-                  message:err,
-                  center:true,
-                  type:'error'
-                })
+              }
+            })
+          }else if(this.type="roler"){
+            let {id} = this.currentUser;
+            let rolerId = this.myRoles.map(item=>{
+              return this.roles.findIndex(value=>value.item)+1
+            })
+            this.monifyUserInfo({uid:id,rolerId}).then(res=>{
+              this.$message({
+                message:res,
+                center:true,
+                type:'success'
               })
-            }
-          })
+              this.getUserList({page:this.current})
+            }).catch(err=>{
+              this.$message({
+                message:err,
+                center:true,
+                type:'error'
+              })
+            })
+          }
           this.dialogFormVisible = !this.dialogFormVisible
         },
         handleDelete(index,row){
