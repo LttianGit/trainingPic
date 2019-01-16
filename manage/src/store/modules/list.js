@@ -1,4 +1,4 @@
-import {getUser,updateUserInfo} from "@/api/user"
+import {getUser,updateUserInfo,deleteUserInfo} from "@/api/user"
 
 const state = {
     list:[]
@@ -25,11 +25,24 @@ const actions = {
             })
         })
     },
-    updateUserList({commit},data){
+    updateUserInfo({commit},data){
         return new Promise((resolve,reject)=>{
             updateUserInfo(data).then(res=>{
                 if(res.data.code == 1){
                     resolve(res.data.msg)
+                }else{
+                    reject(res.data.msg)
+                }
+            }).catch(err=>{
+                reject(err)
+            })
+        })
+    },
+    deleteUserInfo({commit},data){
+        return new Promise((resolve,reject)=>{
+            deleteUserInfo(data).then(res=>{
+                if(res.data.code == 1){
+                    resolve(res.data.meg)
                 }else{
                     reject(res.data.msg)
                 }

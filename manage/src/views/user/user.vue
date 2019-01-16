@@ -14,15 +14,29 @@
         <el-table-column prop="phone" label="手机号"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="address" label="地址"></el-table-column>
+        <el-table-column label="角色" width="120">
+            <template slot-scope="scope">
+                <el-tag
+                :key="tag"
+                v-for="tag in scope.row.rolers">
+                {{tag}}
+              </el-tag>
+            </template>
+        </el-table-column>
+        <el-table-column label="权限" width="120">
+            <template slot-scope="scope">
+                <el-tag
+                :key="tag"
+                v-for="tag in scope.row.access">
+                {{tag}}
+              </el-tag>
+            </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" style="margin: 5px 0;" @click="handleRoler(scope.$index, scope.row)">修改角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -33,29 +47,48 @@
       :total="1000">
     </el-pagination>
 
-    <el-dialog title="编辑信息" :visible.sync="dialogFormVisible">
+    <el-dialog :title="type=='edit'?'编辑用户信息':'修改用户角色'" :visible.sync="dialogFormVisible">
       <el-form :model="currentUser" label-position="right" label-width="80px" :rules="rules" ref="form">
-        <el-form-item label="头像" :label-width="formLabelWidth">
+        <el-form-item v-if="type=='edit'" label="头像" :label-width="formLabelWidth">
             <el-upload action="123" class="avatar-uploader" :show-file-list="false">
               <img v-if="currentUser.avatar" :src="currentUser.avatar" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth" prop="username">
-          <el-input v-model="currentUser.username" autocomplete="off" aria-placeholder=""></el-input>
+        <el-form-item v-if="type=='edit'" label="姓名" :label-width="formLabelWidth" prop="username">
+          <el-input v-model="currentUser.username" autoComplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="简介" :label-width="formLabelWidth" prop="profile">
-          <el-input v-model="currentUser.profile" autocomplete="off"></el-input>
+        <el-form-item v-if="type=='edit'" label="简介" :label-width="formLabelWidth" prop="profile">
+          <el-input v-model="currentUser.profile" autoComplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" :label-width="formLabelWidth" prop="phone">
-          <el-input v-model="currentUser.phone" autocomplete="off"></el-input>
+        <el-form-item v-if="type=='edit'" label="手机号" :label-width="formLabelWidth" prop="phone">
+          <el-input v-model="currentUser.phone" autoComplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
-          <el-input v-model="currentUser.email" autocomplete="off"></el-input>
+        <el-form-item v-if="type=='edit'" label="邮箱" :label-width="formLabelWidth" prop="email">
+          <el-input v-model="currentUser.email" autoComplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="地址" :label-widtnameh="formLabelWidth" prop="address">
-          <el-input v-model="currentUser.address" autocomplete="off"></el-input>
+      </el-form-item>
+        <el-form-item v-if="type=='edit'" label="地址" :label-widtnameh="formLabelWidth" prop="address">
+          <el-input v-model="currentUser.address" autoComplete="off"></el-input>
         </el-form-item>
+        <el-form-item v-if="type=='roler'" label="我的角色" :label-widtnameh="formLabelWidth" prop="address">
+            <el-tag
+                :key="tag"
+                closable
+                @close="handleColse(tag)"
+                v-for="tag in myRoles">
+                {{tag}}
+              </el-tag>
+          </el-form-item>
+          <el-form-item v-if="type=='roler'" label="全部角色" :label-widtnameh="formLabelWidth" prop="address">
+              <el-tag
+              :key="tag"
+              v-for="tag in roles">
+              <span @click="addRoler(tag)">
+                  {{tag}}
+              </span>
+            </el-tag>
+          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -77,7 +110,6 @@
             callback()
           }
         }
-
         const phoneValidator = (rule, value, callback)=>{
           if (!/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(value)){
             callback(new Error('请输入正确的手机号码'))
@@ -94,6 +126,8 @@
         }
         return {
             current:1,
+            roles:['boss','developer','producter','operator','designer'],
+            myRoles:[],
             dialogFormVisible:false,
             dialogTableVisible: false,
             formLabelWidth: '120px',
@@ -103,7 +137,8 @@
               profile:[{trigger:"blur",required:true,validator:profileValidator}],
               phone:[{trigger:"blur",required:true,validator:phoneValidator}],
               email:[{trigger:"blur",required:true,validator:emailValidator}]
-            }
+            },
+            type:''
         }
       },
       computed: {
@@ -117,46 +152,42 @@
       methods: {
         ...mapActions({
             getUserList:"list/getUserList",
-            updateUserInfo:"list/updateUserInfo"
+            updateUserInfo:"list/updateUserInfo",
+            deleteUserInfo:"list/deleteUserInfo"
         }),
-        handleEdit(index,val){
+        handleEdit(index,row){
+            this.type="edit"
             this.dialogFormVisible = !this.dialogFormVisible
-            this.currentUser = val
-        },
-        handleDelete(index,val){
-          console.log(index,val)
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除'
-              });          
-            });
+            this.currentUser = {...row}
         },
         handleChange(page){
             this.getUserList({page})
         },
+        handleRoler(index,row){
+            this.type="roler"
+            this.currentUser = {...row}
+            this.myRoles = [...row.rolers]
+            this.dialogFormVisible = !this.dialogFormVisible
+        },
+        handleColse(roler){
+          let index = this.myRoles.findIndex(item=>item==roler)
+          this.myRoles.splice(index,1)
+        },
+        addRoler(roler){
+          this.myRoles.push(roler)
+          this.myRoles = [...new Set(this.myRoles)]
+        },
         submit(){
-          this.dialogFormVisible = !this.dialogFormVisible
           this.$refs.form.validate(valid=>{
             if(valid){
-              console.log(this.currentUser)
               let {id,username,profile,email,phone} = this.currentUser;
-              updateUserInfo({id,username,profile,email,phone}).then(res=>{
+              this.updateUserInfo({id,username,profile,email,phone}).then(res=>{
                 this.$message({
                   message:res,
                   center:true,
                   type:'success'
                 })
-                this.getUserList()
+                this.getUserList({page:this.current})
               }).catch(err=>{
                 this.$message({
                   message:err,
@@ -165,6 +196,24 @@
                 })
               })
             }
+          })
+          this.dialogFormVisible = !this.dialogFormVisible
+        },
+        handleDelete(index,row){
+          let {id} = row;
+          this.deleteUserInfo({uid:id}).then(res=>{
+            this.$message({
+              message:res,
+              center:true,
+              type:'success'
+            })
+            this.getUserList({page:this.current})
+          }).catch(err=>{
+            this.$message({
+              message:err,
+              center:true,
+              type:'error'
+            })
           })
         }
       }
