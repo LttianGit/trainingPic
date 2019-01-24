@@ -13,33 +13,38 @@ const orginizeRouter = {
   },
   children: [
     {
-      path: 'coding',
-      component: () => import('@/views/user/user'),
-      name: 'Coding',
-      meta: { title: 'Coding',roles:['coding'] }
+      path: 'index',
+      component: () => import('@/views/organize/index'),
+      name: 'Index',
+      meta: { title: 'Index' }
     },{
-        path: 'commit',
-        component: () => import('@/views/user/user'),
-        name: 'Commit',
-        meta: { title: 'Commit' ,roles:['commit']}
+      path: 'Charts',
+      component: () => import('@/views/organize/charts'),
+      name: 'Charts',
+      meta: { title: 'Charts',roles:['coding'] }
+    },{
+        path: 'PutInExcel',
+        component: () => import('@/views/organize/putInExcel'),
+        name: 'PutInExcel',
+        meta: { title: 'PutInExcel' ,roles:['commit']}
       },{
         path: 'prd',
-        component: () => import('@/views/user/user'),
+        component: () => import('@/views/organize/index'),
         name: 'Prd',
         meta: { title: 'Prd' ,roles:['prd']}
       },{
         path: 'demand',
-        component: () => import('@/views/user/user'),
+        component: () => import('@/views/organize/index'),
         name: 'Demand',
         meta: { title: 'Demand' ,roles:['demand']}
       },{
         path: 'activity',
-        component: () => import('@/views/user/user'),
+        component: () => import('@/views/organize/index'),
         name: 'Activity',
         meta: { title: 'Activity',roles:['activity'] }
       },{
         path: 'ui',
-        component: () => import('@/views/user/user'),
+        component: () => import('@/views/organize/index'),
         name: 'UI',
         meta: { title: 'UI',roles:['UI'] }
       }

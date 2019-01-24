@@ -1,5 +1,6 @@
 <template>
    <div>
+      <el-button :loading="downloadLoading" style="margin:0 0 20px 20px;" type="primary" icon="document" @click="handleDownload">{{ $t('excel.export') }} Excel</el-button>
         <el-table
         :data="tableData"
         style="width: 100%;text-align: center">
@@ -7,6 +8,11 @@
         <el-table-column label="头像" width="120">
             <template slot-scope="scope">
                 <img :src="scope.row.avatar" alt="" style="width:100%">
+            </template>
+        </el-table-column>
+        <el-table-column label="创建时间" width="120">
+            <template slot-scope="scope">
+                <span>{{scope.row.create_time | formatDate}}</span>
             </template>
         </el-table-column>
         <el-table-column prop="username" label="姓名" width="100"></el-table-column>
@@ -50,7 +56,7 @@
     <el-dialog :title="type=='edit'?'编辑用户信息':'修改用户角色'" :visible.sync="dialogFormVisible">
       <el-form :model="currentUser" label-position="right" label-width="80px" :rules="rules" ref="form">
         <el-form-item v-if="type=='edit'" label="头像" :label-width="formLabelWidth">
-            <el-upload action="123" class="avatar-uploader" :show-file-list="false">
+            <el-upload action="http://123.206.55.50:11000/upload" :on-success="uploadSuccess" class="avatar-uploader" :show-file-list="false">
               <img v-if="currentUser.avatar" :src="currentUser.avatar" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -138,7 +144,8 @@
               phone:[{trigger:"blur",required:true,validator:phoneValidator}],
               email:[{trigger:"blur",required:true,validator:emailValidator}]
             },
-            type:''
+            type:'',
+            downloadLoading:false
         }
       },
       computed: {
@@ -182,8 +189,8 @@
           if(this.type=='edit'){
               this.$refs.form.validate(valid=>{
               if(valid){
-                let {id,username,profile,email,phone} = this.currentUser;
-                this.updateUserInfo({id,username,profile,email,phone}).then(res=>{
+                let {id,username,avatar,profile,email,phone} = this.currentUser;
+                this.updateUserInfo({id,username,avatar,profile,email,phone}).then(res=>{
                   this.$message({
                     message:res,
                     center:true,
@@ -236,6 +243,36 @@
               center:true,
               type:'error'
             })
+          })
+        },
+        uploadSuccess(res,file,fileList){
+          console.log(res,file,fileList)
+          if(res.code == 1){
+            this.currentUser.avatar = res.data[0].path
+          }else{
+            this.$message({
+              message:res.msg,
+              center:true,
+              type:'success'
+            })
+          }
+        },
+        handleDownload() {
+          this.downloadLoading = true
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = Object.keys(this.tableData[0])
+            const data = this.tableData.map(item=>{
+              return Object.values(item)
+            })
+
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: this.filename,
+              autoWidth: this.autoWidth,
+              bookType: this.bookType
+            })
+            this.downloadLoading = false
           })
         }
       }

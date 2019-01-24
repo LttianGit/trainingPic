@@ -27,6 +27,15 @@ import './mock' // simulation data
 // 引入自定义过滤器
 import * as filters from './filters' // global filters
 
+import './directive/permission/index'
+
+//引入v-charts
+import VCharts from "v-charts"
+
+Vue.use(VCharts)
+
+// Vue.directive('permission',permission)
+
 // import Mock from "mockjs"
 // Mock.mock(/\/login\/login2/,'post',res=>{
 //   console.log('res',res)
@@ -42,6 +51,20 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+//写个日期格式化过滤器
+Vue.filter('formatDate',function(value){
+  let date = new Date()
+  date.setTime(value)
+  let year = date.getFullYear(),
+      month = (date.getMonth() + 1).toString().padStart(2,'0'),
+      day = date.getDate().toString().padStart(2,'0'),
+      hour = date.getHours().toString().padStart(2,'0'),
+      min = date.getMinutes().toString().padStart(2,'0'),
+      sec = date.getSeconds().toString().padStart(2,'0')
+  return `${year}-${month}-${day} ${hour}:${min}:${sec}`
+})
+
 // 去掉生成环境提示
 Vue.config.productionTip = false
 
